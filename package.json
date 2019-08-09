@@ -1,0 +1,32 @@
+{
+  "name": "we-luv-office-hours",
+  "version": "1.0.0",
+  "main": "src/js/server.js",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "helmet": "^3.15.0",
+    "http-server": "^0.11.1",
+    "mongoose": "^5.3.6"
+  },
+  "engines": {
+    "node": ">= 6.10.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "work": "node src/js/server.js",
+    "start": "node src/js/server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "local": "node_modules/.bin/live-server --port=8080",
+    "test": "mocha --timeout 10000"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.5"
+  },
+  "contributors": ["Daewoo", "Gordon", "Jason", "Brandon", "Adnan"]
+}

@@ -1,0 +1,13 @@
+### What did we actually built
+- **Back End**
+  -
+- **Front End**
+  - Finished most of the User Interface
+    - The login mechanisms
+    - The Calendar
+    - A Navigation Bar
+    - A List of today's meetings
+    - A List of courses
+  - Finished most of the functionalities for the use cases laid out in p1
+    - Create new classes
+      - The user can create a new class by clicking on the create course button and filling out the forms in the pop up

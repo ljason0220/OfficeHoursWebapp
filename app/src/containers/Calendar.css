@@ -1,0 +1,52 @@
+.Calendar1{
+  width: 90%;
+}
+.Calendar2{
+  width: 75%;
+}
+.Calendar3{
+  width: 60%;
+}
+.NavBarLeft1{
+  width: 5%;
+  text-align: left;
+  margin-top:26%
+}
+.NavBarLeft2{
+  width: 20%;
+  text-align: left
+}
+.NavBarRight1{
+  width: 5%;
+  text-align: right;
+  margin-top:25%
+}
+.NavBarRight2{
+  width: 20%;
+  text-align: center;
+}
+.rbc-current-time-indicator {
+	visibility: hidden;
+}
+.invis{
+  display:none;
+}
+.main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+#CloseRightSideBarButton{
+  text-align: right;
+}
+#CloseLeftSideBarButton{
+  text-align: left;
+}
+.rbc-events-container {
+	width:100%;
+}
+
+.rbc-event {
+	width:100%;
+}

@@ -1,0 +1,394 @@
+swagger: '2.0'
+info:
+  description: |
+    We Luv Office Hours
+  version: 1.0.0
+  title: We Luv Office Hours
+  # termsOfService: http://swagger.io/terms/
+  # contact:
+  #   email: apiteam@swagger.io
+  # license:
+  #   name: Apache 2.0
+  #   url: http://www.apache.org/licenses/LICENSE-2.0.html
+# host: petstore.swagger.io
+# basePath: /v2
+tags:
+- name: user
+  description: Students/instructors
+  # externalDocs:
+  #   description: Find out more
+  #   url: http://swagger.io
+# schemes:
+# - http
+paths:
+  /user/login:
+    post:
+      tags:
+      - user
+      summary: Log in a user into system
+      parameters:
+      - in: body
+        name: body
+        description: Log in info
+        required: true
+        schema:
+          type: object
+          properties:
+            utorid:
+              type: string
+      responses:
+        200: 
+          description: User object
+      consumes:
+      - application/json
+      produces:
+      - application/json
+    
+  /user/logout:
+    post:
+      tags:
+      - user
+      summary: Log out a user from the system
+      responses:
+        200:
+          description: Log out successful
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      
+  /user/signup:
+    post:
+      tags:
+      - user
+      summary: Add a new user
+      operationId: addUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: User object that needs to be added to DB, all parameters in user db tagged required
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: user object
+
+  /user/{userID}/update:
+    put:
+      summary: Update a user's information
+      tags:
+      - user
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: userID
+        description: User id
+        type: string
+        required: true
+      - in: body
+        name: body
+        description: User object that needs to be updated, send updated user object
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        200:
+          description: updated user object
+  /course/create:
+    post:
+      tags:
+      - course
+      summary: Create a course
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Course object that needs to be added to DB, any parameters tagged as required in our Course DB, only instructor can create a course
+        required: true
+        schema:
+          $ref: '#/definitions/Course'
+      responses:
+        200: 
+          description: new course object created
+  /course/{courseCode}/update:
+    put:
+      summary: update information about a given course
+      tags:
+      - course
+      parameters:
+      - in: path
+        name: courseCode
+        description: course code
+        type: integer
+        format: int64
+        required: true
+      - in: body
+        name: body
+        description: Course object that needs to be updated, send updated course object
+        required: true
+        schema:
+          $ref: '#/definitions/Course'
+      responses:
+        200:
+          description: updated course object
+      consumes:
+      - application/json
+      produces:
+      - application/json
+  
+  /meeting/create:
+    post:
+      summary: create a meeting slot within a given open interval
+      tags:
+      - meeting
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Meeting object that needs to be added to DB, (utorid(student, maybe BE will be able to identify using express-session), starttime, duration, host(instructor), required), (note, optional)
+        required: true
+        schema:
+          $ref: '#/definitions/Meeting'
+      responses:
+        200: 
+          description: new Meeting object
+
+  /meeting/{meetingId}/update:
+    put:
+      summary: update a meeting slot (time, duration, etc.)
+      tags:
+      - meeting
+      parameters:
+      - in: path
+        name: meetingId
+        type: integer
+        format: int64
+        required: true
+      - in: body
+        name: body
+        description: Updated meeting object
+        schema:
+          $ref: '#/definitions/Meeting'
+        required: true
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        200:
+          description: updated meeting object
+
+  /meeting/{meetingId}/delete:
+    delete:
+      summary: delete a meeting slot
+      tags:
+      - meeting
+      parameters:
+      - in: path
+        name: meetingId
+        type: integer
+        format: int64
+        description: id of the meeting you want to delete
+        required: true
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        200: 
+          description: nothing
+  
+  /meeting/{courseCode}/getByClass:
+    get:
+      tags:
+      - meeting
+      summary: get all meetings for this course
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: courseCode
+        type: integer
+        format: int64
+        description: course code
+        required: true
+      responses:
+        200:
+          description: all meeting objects of course code
+
+  /meeting/{userId}/getByUser:
+    get:
+      tags:
+      - meeting
+      summary: get all meetings for this user
+      parameters:
+      - in: path
+        name: userId
+        type: integer
+        format: int64
+        description: user id
+        required: true
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        200:
+          description: all meeting objects that userId has booked
+  
+  /course/{courseCode}/invite:
+    post:
+      tags:
+      - course
+      summary: invite students
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: courseCode
+        required: true
+        type: integer
+        format: int64
+        description: course code
+      - in: body
+        name: utorIds
+        required: true
+        schema:
+          type: object
+          properties:
+            utorIds:
+              type: array
+              items:
+                type: string
+        description: list of utorids to add to courseId
+      responses:
+        200: 
+          description: nothing 
+        
+
+definitions:
+  Meeting:
+    type: object
+    required:
+    - courseCode
+    - location
+    - startTime
+    properties:
+      id:
+        type: integer
+        format: int64
+      host:
+        type: string
+      courseCode: 
+        type: string
+        example: csc302
+      attendees:
+        type: array
+        items:
+          type: string
+          example: utorID
+      location:
+        type: string
+        example: BA2175
+      startTime:
+        type: string
+        example: 13:00 10/10/2018
+      duration:
+        type: integer
+        format: int64
+        example: 10
+      note:
+        type: string
+        example: This is a note.
+  User:
+    type: object
+    required:
+    - utorId
+    - name
+    - email
+    - password
+    - isInstructor
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        example: Daewoo Kang
+      email:
+        type: string
+        example: example@example.com
+      password: 
+        type: string
+        example: password
+      isInstructor: 
+        type: boolean
+        example: true
+      meetings:
+        type: array
+        items:
+          type: integer
+          format: int64
+      preferences:
+        type: array
+        items:
+          type: string
+          example: Monthly view
+      availability:
+        type: array
+        items:
+          type: object
+          properties:
+            startTime: 
+              type: string
+              example: 13:00 09/09/2018
+            duration:
+              type: integer
+              format: int64
+            interval:
+              type: integer
+              format: int64
+            preferences:
+              type: string
+              example: recurring
+  Course:
+    type: object
+    required:
+    - courseCode
+    - instructors
+    properties:
+      courseCode:
+        type: string
+        example: CSC302
+      instructors: 
+        type: array
+        items:
+          type: string
+      students: 
+        type: array
+        items:
+          type: string
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /Kangdaewoo/WeLuvOfficeHours/1.0.0
+schemes:
+ - https
+ - http
