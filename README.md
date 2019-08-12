@@ -6,12 +6,15 @@ The MVP is a web application that allows a user to view the office hours offered
 - live-server
 - mongoose
 - express
+- react
+- Node.js
 - debug
 - body-parser
 * chai
 * chai-http
 * mocha
 * nodemon
+* heroku
 
 ### Other stuff...
 
